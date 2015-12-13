@@ -1,0 +1,86 @@
+---
+title: "Data analysis protocol for OU3"
+author: "Lorenz Gerber"
+date: "13 December 2015"
+output: pdf_document
+---
+
+This document describes the data processing and analysis for the mandatory assignment 'OU3'.
+First some names and definitions are set:
+
+```{r}
+# setting the workdirectory
+setwd('~/github/table_analysis/')
+
+# names of the data types tested
+datatype<-c('array', 'dlist', 'mtf')
+
+# number of operations in each test case
+datapoints<-c(250, 500, 1000, 2500, 5000, 7500, 10000)
+
+# reading the raw data filenames into variables
+array<-list.files(pattern = '^a.')
+dlist<-list.files(pattern = '^d.')
+mtf<-list.files(pattern = '^m.')
+
+# creating result matrix
+results<-matrix(105, 7, 15)
+
+# value insertion sequence into results matrix
+col_ind<-seq(1,15,3)
+
+# row and column names for result tabme
+colnames(results)<-rep(c('array', 'dlist', 'mtf'),5)
+rownames(results)<-c(250, 500, 1000, 2500, 5000, 7500, 10000)
+
+# names of conducted experiments
+experiments<-c('Insertion', 'RandomExistingLookup', 
+               'RandomNonExisitingLookup', 'SkewedLookup', 'Remove')
+```
+
+Then the mean and sd for each datatype, datapoint and test is calculated:
+
+```{r}
+# looping through datatypes
+for (dt_i in 1:3 ){
+    # looping through datapoints
+    for ( exp_i in 1:7 ){
+        # dynamically select file to process
+        current<-eval(parse(text=paste(datatype[dt_i], '[',exp_i,']')))
+        # load current file
+        current_data<-read.table(file=current, sep='\t', dec='.')
+        # calculate statistics and write into result table
+        results[exp_i, col_ind+dt_i-1]<-apply(current_data,2, mean)
+    }
+}
+
+means<-results
+```
+
+Calculating Standard Deviations and Relative Standard Deviation (RSD)
+```{r}
+# looping through datatypes
+for (dt_i in 1:3 ){
+    # looping through datapoints
+    for ( exp_i in 1:7 ){
+        # dynamically select file to process
+        current<-eval(parse(text=paste(datatype[dt_i], '[',exp_i,']')))
+        # load current file
+        current_data<-read.table(file=current, sep='\t', dec='.')
+        # calculate statistics and write into result table
+        results[exp_i, col_ind+dt_i-1]<-apply(current_data,2, sd)
+    }
+}
+
+sds<-results
+
+# calculating relative standard deviation
+rsds<-100/means*sds
+```
+
+First checking behaviour of the relative standard deviations per experiment. 
+```{r, echo=FALSE}
+plot(1,1)
+```
+
+
