@@ -1,16 +1,6 @@
----
-title: "Data analysis protocol for OU3"
-author: "Lorenz Gerber"
-date: "13 December 2015"
-output: 
-  pdf_document: 
-    keep_tex: yes
----
-
-This document describes the data processing and analysis for the mandatory assignment 'OU3'.
-First some names and definitions are set:
-
-```{r}
+# This document describes the data processing and analysis for the mandatory assignment 'OU3'.
+# First some names and definitions are set:
+    
 # setting the workdirectory
 setwd('~/github/table_analysis/')
 
@@ -38,11 +28,8 @@ rownames(results)<-c(250, 500, 1000, 2500, 5000, 7500, 10000)
 # names of conducted experiments
 experiments<-c('Insertion', 'RandomExistingLookup', 
                'RandomNonExisitingLookup', 'SkewedLookup', 'Remove')
-```
 
-Then the mean and sd for each datatype, datapoint and test is calculated:
-
-```{r}
+# Then the mean and sd for each datatype, datapoint and test is calculated:
 # looping through datatypes
 for (dt_i in 1:3 ){
     # looping through datapoints
@@ -57,10 +44,8 @@ for (dt_i in 1:3 ){
 }
 
 means<-results
-```
 
-Calculating Standard Deviations and Relative Standard Deviation (RSD)
-```{r}
+# Calculating Standard Deviations and Relative Standard Deviation (RSD)
 # looping through datatypes
 for (dt_i in 1:3 ){
     # looping through datapoints
@@ -78,10 +63,13 @@ sds<-results
 
 # calculating relative standard deviation
 rsds<-100/means*sds
-```
 
-Plotting the 'insertion' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
-```{r, echo=FALSE}
+
+setEPS()
+
+
+# Plotting the 'insertion' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
+postscript(file="fig1.eps", horizontal=F, height=5, width=10, onefile = F, paper = "special")
 par(mfrow=c(1,2))
 plot(datapoints, means[,2], col='black', type='b', ylim=c(0,100), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,3], col='red', type='b', ylim=c(0,100))
@@ -96,11 +84,9 @@ points(datapoints, rsds[,1], col='blue', type='b', ylim=c(0,250))
 legend(x=5000, y=250, datatype[c(2,3,1)], cex=0.8, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=250, labels = '(b)')
+dev.off()
 
-```
-
-Plotting the 'RandomExistingLookup' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
-```{r, echo=FALSE}
+# Plotting the 'RandomExistingLookup' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
 par(mfrow=c(1,2))
 plot(datapoints, means[,5], col='black', type='b', ylim=c(0,2000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,6], col='red', type='b', ylim=c(0,2000))
@@ -116,11 +102,8 @@ legend(x=5000, y=100, datatype[c(2,3,1)], cex=0.8, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=100, labels = '(b)')
 
-```
 
-
-Plotting the 'RandomNonExistingLookup' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
-```{r, echo=FALSE}
+# Plotting the 'RandomNonExistingLookup' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
 par(mfrow=c(1,2))
 plot(datapoints, means[,8], col='black', type='b', ylim=c(0,4000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,9], col='red', type='b', ylim=c(0,4000))
@@ -136,10 +119,7 @@ legend(x=5000, y=50, datatype[c(2,3,1)], cex=0.8, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
 
-```
-
-Plotting the 'SkewedLookup' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
-```{r, echo=FALSE}
+# Plotting the 'SkewedLookup' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
 par(mfrow=c(1,2))
 plot(datapoints, means[,11], col='black', type='b', ylim=c(0,2000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,12], col='red', type='b', ylim=c(0,2000))
@@ -155,10 +135,7 @@ legend(x=5000, y=50, datatype[c(2,3,1)], cex=0.8, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
 
-```
-
-Plotting the 'remove' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
-```{r, echo=FALSE}
+# Plotting the 'remove' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
 par(mfrow=c(1,2))
 plot(datapoints, means[,14], col='black', type='b', ylim=c(0,1000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,15], col='red', type='b', ylim=c(0,1000))
@@ -174,10 +151,8 @@ legend(x=5000, y=50, datatype[c(2,3,1)], cex=0.8, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
 
-```
 
-Plotting the several experiments of dlist datatype. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
-```{r, echo=FALSE}
+# Plotting the several experiments of dlist datatype. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
 par(mfrow=c(1,2))
 plot(datapoints, means[,5], col='black', type='b', ylim=c(0,3000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,8], col='red', type='b', ylim=c(0,3000))
@@ -193,10 +168,8 @@ legend(x=1000, y=50, experiments[c(2,3,4)], cex=0.5, col=c('black','red', 'blue'
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
 
-```
 
-Plotting the several experiments of mtf datatype. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
-```{r, echo=FALSE}
+# Plotting the several experiments of mtf datatype. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
 par(mfrow=c(1,2))
 plot(datapoints, means[,6], col='black', type='b', ylim=c(0,3000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,9], col='red', type='b', ylim=c(0,3000))
@@ -212,10 +185,8 @@ legend(x=1000, y=50, experiments[c(2,3,4)], cex=0.5, col=c('black','red', 'blue'
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
 
-```
 
-Plotting the several experiments of array datatype. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
-```{r, echo=FALSE}
+# Plotting the several experiments of array datatype. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
 par(mfrow=c(1,2))
 plot(datapoints, means[,4], col='black', type='b', ylim=c(0,6000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,7], col='red', type='b', ylim=c(0,6000))
@@ -231,4 +202,4 @@ legend(x=1000, y=50, experiments[c(2,3,4)], cex=0.5, col=c('black','red', 'blue'
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
 
-```
+

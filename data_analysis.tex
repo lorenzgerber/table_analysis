@@ -1,0 +1,226 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+    \usepackage{xltxtra,xunicode}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textbf{{#1}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={Lorenz Gerber},
+            pdftitle={Data analysis protocol for OU3},
+            colorlinks=true,
+            citecolor=blue,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\setcounter{secnumdepth}{0}
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\newcommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+  \title{Data analysis protocol for OU3}
+  \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+  \author{Lorenz Gerber}
+  \preauthor{\centering\large\emph}
+  \postauthor{\par}
+  \predate{\centering\large\emph}
+  \postdate{\par}
+  \date{13 December 2015}
+
+
+
+\begin{document}
+
+\maketitle
+
+
+This document describes the data processing and analysis for the
+mandatory assignment `OU3'. First some names and definitions are set:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# setting the workdirectory}
+\KeywordTok{setwd}\NormalTok{(}\StringTok{'~/github/table_analysis/'}\NormalTok{)}
+
+\CommentTok{# names of the data types tested}
+\NormalTok{datatype<-}\KeywordTok{c}\NormalTok{(}\StringTok{'array'}\NormalTok{, }\StringTok{'dlist'}\NormalTok{, }\StringTok{'mtf'}\NormalTok{)}
+
+\CommentTok{# number of operations in each test case}
+\NormalTok{datapoints<-}\KeywordTok{c}\NormalTok{(}\DecValTok{250}\NormalTok{, }\DecValTok{500}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DecValTok{2500}\NormalTok{, }\DecValTok{5000}\NormalTok{, }\DecValTok{7500}\NormalTok{, }\DecValTok{10000}\NormalTok{)}
+
+\CommentTok{# reading the raw data filenames into variables}
+\NormalTok{array<-}\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{pattern =} \StringTok{'^a.'}\NormalTok{)}
+\NormalTok{dlist<-}\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{pattern =} \StringTok{'^d.'}\NormalTok{)}
+\NormalTok{mtf<-}\KeywordTok{list.files}\NormalTok{(}\DataTypeTok{pattern =} \StringTok{'^m.'}\NormalTok{)}
+
+\CommentTok{# creating result matrix}
+\NormalTok{results<-}\KeywordTok{matrix}\NormalTok{(}\DecValTok{105}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{15}\NormalTok{)}
+
+\CommentTok{# value insertion sequence into results matrix}
+\NormalTok{col_ind<-}\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{15}\NormalTok{,}\DecValTok{3}\NormalTok{)}
+
+\CommentTok{# row and column names for result tabme}
+\KeywordTok{colnames}\NormalTok{(results)<-}\KeywordTok{rep}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{'array'}\NormalTok{, }\StringTok{'dlist'}\NormalTok{, }\StringTok{'mtf'}\NormalTok{),}\DecValTok{5}\NormalTok{)}
+\KeywordTok{rownames}\NormalTok{(results)<-}\KeywordTok{c}\NormalTok{(}\DecValTok{250}\NormalTok{, }\DecValTok{500}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DecValTok{2500}\NormalTok{, }\DecValTok{5000}\NormalTok{, }\DecValTok{7500}\NormalTok{, }\DecValTok{10000}\NormalTok{)}
+
+\CommentTok{# names of conducted experiments}
+\NormalTok{experiments<-}\KeywordTok{c}\NormalTok{(}\StringTok{'Insertion'}\NormalTok{, }\StringTok{'RandomExistingLookup'}\NormalTok{, }
+               \StringTok{'RandomNonExisitingLookup'}\NormalTok{, }\StringTok{'SkewedLookup'}\NormalTok{, }\StringTok{'Remove'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Then the mean and sd for each datatype, datapoint and test is
+calculated:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# looping through datatypes}
+\NormalTok{for (dt_i in }\DecValTok{1}\NormalTok{:}\DecValTok{3} \NormalTok{)\{}
+    \CommentTok{# looping through datapoints}
+    \NormalTok{for ( exp_i in }\DecValTok{1}\NormalTok{:}\DecValTok{7} \NormalTok{)\{}
+        \CommentTok{# dynamically select file to process}
+        \NormalTok{current<-}\KeywordTok{eval}\NormalTok{(}\KeywordTok{parse}\NormalTok{(}\DataTypeTok{text=}\KeywordTok{paste}\NormalTok{(datatype[dt_i], }\StringTok{'['}\NormalTok{,exp_i,}\StringTok{']'}\NormalTok{)))}
+        \CommentTok{# load current file}
+        \NormalTok{current_data<-}\KeywordTok{read.table}\NormalTok{(}\DataTypeTok{file=}\NormalTok{current, }\DataTypeTok{sep=}\StringTok{'}\CharTok{\textbackslash{}t}\StringTok{'}\NormalTok{, }\DataTypeTok{dec=}\StringTok{'.'}\NormalTok{)}
+        \CommentTok{# calculate statistics and write into result table}
+        \NormalTok{results[exp_i, col_ind+dt_i}\DecValTok{-1}\NormalTok{]<-}\KeywordTok{apply}\NormalTok{(current_data,}\DecValTok{2}\NormalTok{, mean)}
+    \NormalTok{\}}
+\NormalTok{\}}
+
+\NormalTok{means<-results}
+\end{Highlighting}
+\end{Shaded}
+
+Calculating Standard Deviations and Relative Standard Deviation (RSD)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# looping through datatypes}
+\NormalTok{for (dt_i in }\DecValTok{1}\NormalTok{:}\DecValTok{3} \NormalTok{)\{}
+    \CommentTok{# looping through datapoints}
+    \NormalTok{for ( exp_i in }\DecValTok{1}\NormalTok{:}\DecValTok{7} \NormalTok{)\{}
+        \CommentTok{# dynamically select file to process}
+        \NormalTok{current<-}\KeywordTok{eval}\NormalTok{(}\KeywordTok{parse}\NormalTok{(}\DataTypeTok{text=}\KeywordTok{paste}\NormalTok{(datatype[dt_i], }\StringTok{'['}\NormalTok{,exp_i,}\StringTok{']'}\NormalTok{)))}
+        \CommentTok{# load current file}
+        \NormalTok{current_data<-}\KeywordTok{read.table}\NormalTok{(}\DataTypeTok{file=}\NormalTok{current, }\DataTypeTok{sep=}\StringTok{'}\CharTok{\textbackslash{}t}\StringTok{'}\NormalTok{, }\DataTypeTok{dec=}\StringTok{'.'}\NormalTok{)}
+        \CommentTok{# calculate statistics and write into result table}
+        \NormalTok{results[exp_i, col_ind+dt_i}\DecValTok{-1}\NormalTok{]<-}\KeywordTok{apply}\NormalTok{(current_data,}\DecValTok{2}\NormalTok{, sd)}
+    \NormalTok{\}}
+\NormalTok{\}}
+
+\NormalTok{sds<-results}
+
+\CommentTok{# calculating relative standard deviation}
+\NormalTok{rsds<-}\DecValTok{100}\NormalTok{/means*sds}
+\end{Highlighting}
+\end{Shaded}
+
+Plotting the `insertion' experiment. Plot (a) shows the speed in
+microseconds and plot (b) the RSDs.
+\includegraphics{data_analysis_files/figure-latex/unnamed-chunk-4-1.pdf}
+
+Plotting the `RandomExistingLookup' experiment. Plot (a) shows the speed
+in microseconds and plot (b) the RSDs.
+\includegraphics{data_analysis_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+Plotting the `RandomNonExistingLookup' experiment. Plot (a) shows the
+speed in microseconds and plot (b) the RSDs.
+\includegraphics{data_analysis_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+Plotting the `SkewedLookup' experiment. Plot (a) shows the speed in
+microseconds and plot (b) the RSDs.
+\includegraphics{data_analysis_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+Plotting the `remove' experiment. Plot (a) shows the speed in
+microseconds and plot (b) the RSDs.
+\includegraphics{data_analysis_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+Plotting the several experiments of dlist datatype. Plot (a) shows the
+speed in microseconds and plot (b) the RSDs.
+\includegraphics{data_analysis_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+Plotting the several experiments of mtf datatype. Plot (a) shows the
+speed in microseconds and plot (b) the RSDs.
+\includegraphics{data_analysis_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+Plotting the several experiments of array datatype. Plot (a) shows the
+speed in microseconds and plot (b) the RSDs.
+\includegraphics{data_analysis_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\end{document}
