@@ -87,6 +87,7 @@ text(x=9800, y=250, labels = '(b)')
 dev.off()
 
 # Plotting the 'RandomExistingLookup' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
+postscript(file="fig2.eps", horizontal=F, height=5, width=10, onefile = F, paper = "special")
 par(mfrow=c(1,2))
 plot(datapoints, means[,5], col='black', type='b', ylim=c(0,2000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,6], col='red', type='b', ylim=c(0,2000))
@@ -101,9 +102,10 @@ points(datapoints, rsds[,4], col='blue', type='b', ylim=c(0,100))
 legend(x=5000, y=100, datatype[c(2,3,1)], cex=0.8, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=100, labels = '(b)')
-
+dev.off()
 
 # Plotting the 'RandomNonExistingLookup' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
+postscript(file="fig3.eps", horizontal=F, height=5, width=10, onefile = F, paper = "special")
 par(mfrow=c(1,2))
 plot(datapoints, means[,8], col='black', type='b', ylim=c(0,4000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,9], col='red', type='b', ylim=c(0,4000))
@@ -118,8 +120,12 @@ points(datapoints, rsds[,7], col='blue', type='b', ylim=c(0,50))
 legend(x=5000, y=50, datatype[c(2,3,1)], cex=0.8, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
+dev.off()
+
+
 
 # Plotting the 'SkewedLookup' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
+postscript(file="fig4.eps", horizontal=F, height=5, width=10, onefile = F, paper = "special")
 par(mfrow=c(1,2))
 plot(datapoints, means[,11], col='black', type='b', ylim=c(0,2000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,12], col='red', type='b', ylim=c(0,2000))
@@ -134,8 +140,12 @@ points(datapoints, rsds[,10], col='blue', type='b', ylim=c(0,50))
 legend(x=5000, y=50, datatype[c(2,3,1)], cex=0.8, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
+dev.off()
+
+
 
 # Plotting the 'remove' experiment. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
+postscript(file="fig5.eps", horizontal=F, height=5, width=10, onefile = F, paper = "special")
 par(mfrow=c(1,2))
 plot(datapoints, means[,14], col='black', type='b', ylim=c(0,1000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,15], col='red', type='b', ylim=c(0,1000))
@@ -150,9 +160,11 @@ points(datapoints, rsds[,13], col='blue', type='b', ylim=c(0,50))
 legend(x=5000, y=50, datatype[c(2,3,1)], cex=0.8, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
+dev.off()
 
 
 # Plotting the several experiments of dlist datatype. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
+postscript(file="fig6.eps", horizontal=F, height=5, width=10, onefile = F, paper = "special")
 par(mfrow=c(1,2))
 plot(datapoints, means[,5], col='black', type='b', ylim=c(0,3000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,8], col='red', type='b', ylim=c(0,3000))
@@ -167,9 +179,12 @@ points(datapoints, rsds[,11], col='blue', type='b', ylim=c(0,50))
 legend(x=1000, y=50, experiments[c(2,3,4)], cex=0.5, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
+dev.off()
+
 
 
 # Plotting the several experiments of mtf datatype. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
+postscript(file="fig7.eps", horizontal=F, height=5, width=10, onefile = F, paper = "special")
 par(mfrow=c(1,2))
 plot(datapoints, means[,6], col='black', type='b', ylim=c(0,3000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,9], col='red', type='b', ylim=c(0,3000))
@@ -184,9 +199,10 @@ points(datapoints, rsds[,12], col='blue', type='b', ylim=c(0,50))
 legend(x=1000, y=50, experiments[c(2,3,4)], cex=0.5, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
-
+dev.off()
 
 # Plotting the several experiments of array datatype. Plot (a) shows the speed in microseconds and plot (b) the RSDs. 
+postscript(file="fig8.eps", horizontal=F, height=5, width=10, onefile = F, paper = "special")
 par(mfrow=c(1,2))
 plot(datapoints, means[,4], col='black', type='b', ylim=c(0,6000), ylab=substitute(paste(mu,'s')), cex.axis=0.6)
 points(datapoints, means[,7], col='red', type='b', ylim=c(0,6000))
@@ -201,5 +217,5 @@ points(datapoints, rsds[,10], col='blue', type='b', ylim=c(0,50))
 legend(x=1000, y=50, experiments[c(2,3,4)], cex=0.5, col=c('black','red', 'blue'),
        pch=1, lty=1)
 text(x=9800, y=50, labels = '(b)')
-
+dev.off()
 
